@@ -1,0 +1,45 @@
+package com.ams.profileservice.services;
+
+import com.ams.profileservice.dtos.EducationDto;
+import com.ams.profileservice.entities.Education;
+import com.ams.profileservice.exceptions.ResourceNotFoundException;
+import com.ams.profileservice.mapper.EducationMapper;
+import com.ams.profileservice.repositories.EducationRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class EducationService {
+  private final EducationRepository educationRepository;
+  private final EducationMapper educationMapper;
+
+  public EducationService(EducationRepository educationRepository, EducationMapper educationMapper) {
+    this.educationRepository = educationRepository;
+    this.educationMapper = educationMapper;
+  }
+
+  public List<EducationDto> findAll(){
+    return educationRepository.findAll().stream().map(educationMapper::toDto).collect(Collectors.toList());
+  }
+
+  public EducationDto findById(Long id) {
+    return educationMapper.toDto(educationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Education", "id", id)));
+  }
+
+  public EducationDto save(EducationDto educationDto) {
+    Education education = educationMapper.toEntity(educationDto);
+    return educationMapper.toDto(educationRepository.save(education));
+  }
+
+  public EducationDto update(long id, EducationDto educationDto) {
+    Education education = educationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Education", "id", id));
+    education = educationMapper.partialUpdate(educationDto, education);
+    return educationMapper.toDto(educationRepository.save(education));
+  }
+
+  public void delete(Long id) {
+    educationRepository.deleteById(id);
+  }
+}
