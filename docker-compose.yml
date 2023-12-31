@@ -1,0 +1,83 @@
+version: '3.8'
+services:
+
+  discovery-server:
+    build: ./discovery-server
+    ports:
+      - "8761:8761"
+
+  user-db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: users
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - user-data:/var/lib/postgresql/data
+
+  user-service:
+    build: ./user-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - user-db
+      - discovery-server
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://user-db:5432/users
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+
+  post-db:
+    image: postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: posts
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - post-data:/var/lib/postgresql/data
+
+  post-service:
+    build: ./post-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - post-db
+      - discovery-server
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://post-db:5433/posts
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+
+  profile-db:
+    image: postgres
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_DB: profiles
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - profile-data:/var/lib/postgresql/data
+
+  profile-service:
+    build: ./profile-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - profile-db
+      - discovery-server
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://profile-db:5434/profiles
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+
+
+
+volumes:
+  user-data:
+  post-data:
+  profile-data:
