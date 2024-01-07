@@ -1,18 +1,24 @@
 package com.ams.profileservice.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "education")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Education {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false)
-  private Long profileId;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "profile_id", nullable = false)
+  private Profile profile;
 
   @Column(nullable = false)
   private String school;
@@ -27,5 +33,5 @@ public class Education {
   private Date startDate;
 
   private Date endDate;
-
 }
+
