@@ -44,7 +44,7 @@ public class PostController {
           content = { @Content(mediaType = "application/json",
                   schema = @Schema(implementation = PostDto.class)) })
   @GetMapping("/{id}")
-  public ResponseEntity<PostDto> getPostDtoById(@Parameter(description = "ID of the posts to be obtained") Long id){
+  public ResponseEntity<PostDto> getPostDtoById(@Parameter(description = "ID of the posts to be obtained") @PathVariable Long id){
     return ResponseEntity.ok(postService.findById(id));
   }
 

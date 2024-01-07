@@ -1,13 +1,22 @@
 package com.ams.postservice.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "comments")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Comment {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +36,10 @@ public class Comment {
   private Comment parentComment;
 
   @OneToMany(mappedBy = "parentComment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  private Set<Comment> replies;
+  private Set<Comment> replies = new HashSet<>();
 
   @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  private Set<CommentLike> likes;
+  private Set<CommentLike> likes = new HashSet<>();;
 
   @ManyToOne
   @JoinColumn(name = "post_id")

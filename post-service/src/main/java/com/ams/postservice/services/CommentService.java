@@ -5,9 +5,12 @@ import com.ams.postservice.entities.Comment;
 import com.ams.postservice.exceptions.ResourceNotFoundException;
 import com.ams.postservice.mapper.CommentMapper;
 import com.ams.postservice.repositories.CommentRepository;
+import com.ams.postservice.repositories.PostRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -15,9 +18,12 @@ public class CommentService {
   private final CommentRepository commentRepository;
   private final CommentMapper commentMapper;
 
-  public CommentService(CommentRepository commentRepository, CommentMapper commentMapper) {
+  private final PostRepository postRepository;
+
+  public CommentService(CommentRepository commentRepository, CommentMapper commentMapper, PostRepository postRepository) {
     this.commentRepository = commentRepository;
     this.commentMapper = commentMapper;
+    this.postRepository = postRepository;
   }
 
   public List<CommentDto> findAll(){
@@ -30,13 +36,42 @@ public class CommentService {
 
   public CommentDto save(CommentDto commentDto) {
     Comment comment = commentMapper.toEntity(commentDto);
-    return commentMapper.toDto(commentRepository.save(comment));
+    comment.setPost(postRepository.findById(commentDto.getPostId()).orElseThrow(() -> new ResourceNotFoundException("Post", "id", commentDto.getPostId())));
+    if(commentDto.getParentCommentId() != null) {
+      Comment comment1 = commentRepository.findById(commentDto.getParentCommentId()).orElseThrow(() -> new ResourceNotFoundException("Comment", "id", commentDto.getParentCommentId()));
+      comment.setParentComment(comment1);
+      Comment save = commentRepository.save(comment);
+
+      Set<Comment> replies = new HashSet<>();
+      replies.add(save);
+      comment1.setReplies(replies);
+      commentRepository.save(comment1);
+
+      return commentMapper.toDto(save);
+    } else{
+      return commentMapper.toDto(commentRepository.save(comment));
+    }
+
   }
 
   public CommentDto update(long id, CommentDto commentDto) {
     Comment comment = commentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Comment", "id", id));
     comment = commentMapper.partialUpdate(commentDto, comment);
-    return commentMapper.toDto(commentRepository.save(comment));
+    comment.setPost(postRepository.findById(commentDto.getPostId()).orElseThrow(() -> new ResourceNotFoundException("Post", "id", commentDto.getPostId())));
+    if(commentDto.getParentCommentId() != null) {
+      Comment comment1 = commentRepository.findById(commentDto.getParentCommentId()).orElseThrow(() -> new ResourceNotFoundException("Comment", "id", commentDto.getParentCommentId()));
+      comment.setParentComment(comment1);
+      Comment save = commentRepository.save(comment);
+
+      Set<Comment> replies = new HashSet<>();
+      replies.add(save);
+      comment1.setReplies(replies);
+      commentRepository.save(comment1);
+
+      return commentMapper.toDto(save);
+    } else{
+      return commentMapper.toDto(commentRepository.save(comment));
+    }
   }
 
   public void delete(Long id) {

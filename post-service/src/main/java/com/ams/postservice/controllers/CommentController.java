@@ -44,7 +44,7 @@ public class CommentController {
           content = { @Content(mediaType = "application/json",
                   schema = @Schema(implementation = CommentDto.class)) })
   @GetMapping("/{id}")
-  public ResponseEntity<CommentDto> getCommentDtoById(@Parameter(description = "ID of the comments to be obtained") Long id){
+  public ResponseEntity<CommentDto> getCommentDtoById(@Parameter(description = "ID of the comments to be obtained") @PathVariable Long id){
     return ResponseEntity.ok(commentService.findById(id));
   }
 
