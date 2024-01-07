@@ -1,0 +1,49 @@
+
+### Get User by ID
+GET http://localhost:8080/api/users/{id}
+Authorization: Bearer {your_jwt_token}
+###
+
+### Update User
+PUT http://localhost:8080/api/users/{id}
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+    "id": {id},
+    "username": "new_username",
+    "firstName": "New",
+    "lastName": "User",
+    "password": "new_password",
+    "email": "new.email@example.com",
+    "birthDate": "YYYY-MM-DDTHH:MM:SS",
+    "registrationDate": "YYYY-MM-DDTHH:MM:SS",
+    "lastLoginDate": "YYYY-MM-DDTHH:MM:SS"
+}
+###
+
+### Delete User
+DELETE http://localhost:8080/api/users/{id}
+Authorization: Bearer {your_jwt_token}
+###
+
+### Get All Users
+GET http://localhost:8080/api/users
+Authorization: Bearer {your_jwt_token}
+###
+
+### Create User
+POST http://localhost:8080/api/users
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+    "username": "new_user",
+    "firstName": "New",
+    "lastName": "User",
+    "password": "password",
+    "email": "email@example.com",
+    "birthDate": "YYYY-MM-DDTHH:MM:SS",
+    "registrationDate": "YYYY-MM-DDTHH:MM:SS",
+    "lastLoginDate": "YYYY-MM-DDTHH:MM:SS"
+}

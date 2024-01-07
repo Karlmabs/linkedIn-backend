@@ -5,6 +5,7 @@ import com.ams.profileservice.entities.Experience;
 import com.ams.profileservice.exceptions.ResourceNotFoundException;
 import com.ams.profileservice.mapper.ExperienceMapper;
 import com.ams.profileservice.repositories.ExperienceRepository;
+import com.ams.profileservice.repositories.ProfileRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +16,12 @@ public class ExperienceService {
   private final ExperienceRepository experienceRepository;
   private final ExperienceMapper experienceMapper;
 
-  public ExperienceService(ExperienceRepository experienceRepository, ExperienceMapper experienceMapper) {
+  private final ProfileRepository profileRepository;
+
+  public ExperienceService(ExperienceRepository experienceRepository, ExperienceMapper experienceMapper, ProfileRepository profileRepository) {
     this.experienceRepository = experienceRepository;
     this.experienceMapper = experienceMapper;
+    this.profileRepository = profileRepository;
   }
 
   public List<ExperienceDto> findAll(){
@@ -30,12 +34,16 @@ public class ExperienceService {
 
   public ExperienceDto save(ExperienceDto experienceDto) {
     Experience experience = experienceMapper.toEntity(experienceDto);
+    System.out.println("ExperienceDto: " + experienceDto);
+    System.out.println("Experience: " + experience);
+    experience.setProfile(profileRepository.findById(experienceDto.getProfileId()).orElseThrow(() -> new ResourceNotFoundException("Profile", "id", experienceDto.getProfileId())));
     return experienceMapper.toDto(experienceRepository.save(experience));
   }
 
   public ExperienceDto update(long id, ExperienceDto experienceDto) {
     Experience experience = experienceRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Experience", "id", id));
     experience = experienceMapper.partialUpdate(experienceDto, experience);
+    experience.setProfile(profileRepository.findById(experienceDto.getProfileId()).orElseThrow(() -> new ResourceNotFoundException("Profile", "id", experienceDto.getProfileId())));
     return experienceMapper.toDto(experienceRepository.save(experience));
   }
 

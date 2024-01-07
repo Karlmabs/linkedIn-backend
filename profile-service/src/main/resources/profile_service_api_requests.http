@@ -1,0 +1,229 @@
+
+### Get Profile by ID
+GET http://localhost:8081/api/profiles/1
+Authorization: Bearer {your_jwt_token}
+###
+
+### Update Profile
+PUT http://localhost:8081/api/profiles/1
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+  "id": 1,
+  "userId": 1,
+  "currentJobTitle": "NONE",
+  "industry": "IT",
+  "summary": "summary",
+  "headline": "head",
+  "website": "website.com",
+  "openForWork": true
+}
+###
+
+### Delete Profile
+DELETE http://localhost:8081/api/profiles/{id}
+Authorization: Bearer {your_jwt_token}
+###
+
+### Get All Profiles
+GET http://localhost:8081/api/profiles
+Authorization: Bearer {your_jwt_token}
+###
+
+### Create Profile
+POST http://localhost:8081/api/profiles
+#Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+  "id": 0,
+  "userId": 1,
+  "currentJobTitle": "string",
+  "industry": "string",
+  "summary": "string",
+  "headline": "string",
+  "website": "string",
+  "openForWork": true
+}
+###
+
+### Add Connection to Profile
+PATCH http://localhost:8081/api/profiles/addConnection/1/2
+Authorization: Bearer {your_jwt_token}
+###
+
+### Remove Connection to Profile
+PATCH http://localhost:8081/api/profiles/removeConnection/1/2
+Authorization: Bearer {your_jwt_token}
+###
+
+### Get Experience by ID
+GET http://localhost:8081/api/experiences/1
+Authorization: Bearer {your_jwt_token}
+###
+
+### Update Experience
+PUT http://localhost:8081/api/experiences/{id}
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+  "id": 0,
+  "profileId": 1,
+  "jobTitle": "string",
+  "companyName": "string",
+  "location": "string",
+  "startDate": "2024-01-06T21:02:02.389Z",
+  "endDate": "2024-01-06T21:02:02.389Z"
+}
+###
+
+### Delete Experience
+DELETE http://localhost:8081/api/experiences/{id}
+Authorization: Bearer {your_jwt_token}
+###
+
+### Get All Experiences
+GET http://localhost:8081/api/experiences
+Authorization: Bearer {your_jwt_token}
+###
+
+### Create Experience
+POST http://localhost:8081/api/experiences
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+  "id": 1,
+  "profileId": 1,
+  "jobTitle": "FullStack Developer",
+  "companyName": "Google",
+  "location": "Mountain View, CA",
+  "startDate": "2024-01-06T21:02:02.389Z",
+  "endDate": "2024-01-06T21:02:02.389Z"
+}
+###
+
+### Get Education by ID
+GET http://localhost:8081/api/educations/{id}
+Authorization: Bearer {your_jwt_token}
+###
+
+### Update Education
+PUT http://localhost:8081/api/educations/{id}
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+  "id": 0,
+  "profileId": 0,
+  "school": "string",
+  "degree": "string",
+  "fieldOfStudy": "string",
+  "startDate": "2024-01-06T21:47:15.004Z",
+  "endDate": "2024-01-06T21:47:15.004Z"
+}
+###
+
+### Delete Education
+DELETE http://localhost:8081/api/educations/{id}
+Authorization: Bearer {your_jwt_token}
+###
+
+### Get All Educations
+GET http://localhost:8081/api/educations
+Authorization: Bearer {your_jwt_token}
+###
+
+### Create Education
+POST http://localhost:8081/api/educations
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+  "id": 0,
+  "profileId": 1,
+  "school": "Ecole IT",
+  "degree": "Master",
+  "fieldOfStudy": "Computer Science",
+  "startDate": "2024-01-06T21:47:15.004Z",
+  "endDate": "2024-01-06T21:47:15.004Z"
+}
+
+
+
+### Get ProfileSkill by ID
+GET http://localhost:8081/api/profileSkills/{id}
+Authorization: Bearer {your_jwt_token}
+###
+
+### Update ProfileSkill
+PUT http://localhost:8081/api/profileSkills/{id}
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+  "id": 0,
+  "profileId": 1,
+  "skillId": 1
+}
+###
+
+### Delete ProfileSkill
+DELETE http://localhost:8081/api/profileSkills/{id}
+Authorization: Bearer {your_jwt_token}
+###
+
+### Get All ProfileSkills
+GET http://localhost:8081/api/profileSkills
+Authorization: Bearer {your_jwt_token}
+###
+
+### Create ProfileSkill
+POST http://localhost:8081/api/profileSkills
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+  "id": 0,
+  "profileId": 1,
+  "skillId": 1
+}
+
+
+### Get Skill by ID
+GET http://localhost:8081/api/skills/{id}
+Authorization: Bearer {your_jwt_token}
+###
+
+### Update skill
+PUT http://localhost:8081/api/skills/{id}
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+  "id": 0,
+  "name": "JavaScript"
+}
+###
+
+### Delete skill
+DELETE http://localhost:8081/api/skills/{id}
+Authorization: Bearer {your_jwt_token}
+###
+
+### Get All skills
+GET http://localhost:8081/api/skills
+Authorization: Bearer {your_jwt_token}
+###
+
+### Create skill
+POST http://localhost:8081/api/skills
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+  "id": 0,
+  "name": "Java"
+}

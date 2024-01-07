@@ -1,0 +1,69 @@
+
+### Get Post by ID
+GET http://localhost:8082/api/posts/{id}
+Authorization: Bearer {your_jwt_token}
+###
+
+### Update Post
+PUT http://localhost:8082/api/posts/{id}
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+    // Post details here
+}
+###
+
+### Delete Post
+DELETE http://localhost:8082/api/posts/{id}
+Authorization: Bearer {your_jwt_token}
+###
+
+### Get All Posts
+GET http://localhost:8082/api/posts
+Authorization: Bearer {your_jwt_token}
+###
+
+### Create Post
+POST http://localhost:8082/api/posts
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+    // Post details here
+}
+###
+
+### Get Comment by ID
+GET http://localhost:8082/api/comments/{id}
+Authorization: Bearer {your_jwt_token}
+###
+
+### Update Comment
+PUT http://localhost:8082/api/comments/{id}
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+    // Comment details here
+}
+###
+
+### Delete Comment
+DELETE http://localhost:8082/api/comments/{id}
+Authorization: Bearer {your_jwt_token}
+###
+
+### Get All Comments
+GET http://localhost:8082/api/comments
+Authorization: Bearer {your_jwt_token}
+###
+
+### Create Comment
+POST http://localhost:8082/api/comments
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+    // Comment details here
+}

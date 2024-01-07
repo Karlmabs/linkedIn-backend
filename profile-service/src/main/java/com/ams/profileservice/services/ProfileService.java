@@ -7,7 +7,9 @@ import com.ams.profileservice.mapper.ProfileMapper;
 import com.ams.profileservice.repositories.ProfileRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,5 +43,41 @@ public class ProfileService {
 
   public void delete(Long id) {
     profileRepository.deleteById(id);
+  }
+
+  public ProfileDto addConnection(Long profileId1, Long profileId2) {
+    Profile profile1 = profileRepository.findById(profileId1).orElseThrow(() -> new ResourceNotFoundException("Profile", "id", profileId1));
+    Profile profile2 = profileRepository.findById(profileId2).orElseThrow(() -> new ResourceNotFoundException("Profile", "id", profileId2));
+
+    Set<Profile> connections1 = new HashSet<>();
+    connections1.add(profile2);
+    profile1.setConnections(connections1);
+
+    Set<Profile> connections2 = new HashSet<>();
+    connections2.add(profile1);
+    profile2.setConnections(connections2);
+
+    profileRepository.save(profile1);
+    profileRepository.save(profile2);
+
+    return profileMapper.toDto(profile1);
+  }
+
+  public ProfileDto removeConnection(Long profileId1, Long profileId2) {
+    Profile profile1 = profileRepository.findById(profileId1).orElseThrow(() -> new ResourceNotFoundException("Profile", "id", profileId1));
+    Profile profile2 = profileRepository.findById(profileId2).orElseThrow(() -> new ResourceNotFoundException("Profile", "id", profileId2));
+
+    Set<Profile> connections1 = new HashSet<>(profile1.getConnections());
+    connections1.remove(profile2);
+    profile1.setConnections(connections1);
+
+    Set<Profile> connections2 = new HashSet<>(profile2.getConnections());
+    connections2.remove(profile1);
+    profile2.setConnections(connections2);
+
+    profileRepository.save(profile1);
+    profileRepository.save(profile2);
+
+    return profileMapper.toDto(profile1);
   }
 }

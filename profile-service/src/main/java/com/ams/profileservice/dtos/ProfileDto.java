@@ -1,21 +1,20 @@
 package com.ams.profileservice.dtos;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProfileDto {
-
+public class ProfileDto implements Serializable {
   private Long id;
 
-  private Long userId;
+  private Long userId; // Reference to User entity in User Microservice
 
   private String currentJobTitle;
 
@@ -27,6 +26,14 @@ public class ProfileDto {
 
   private String website;
 
-  private boolean isOpenForWork;
+  private Boolean openForWork;
+
+  private List<EducationDto> education;
+
+  private List<ExperienceDto> experiences;
+
+  private List<ProfileSkillDto> skills;
+
+  private Set<Long> connections;
 
 }
