@@ -1,16 +1,16 @@
 
 ### Get User by ID
-GET http://localhost:8080/api/users/{id}
+GET http://localhost:8080/api/users/1
 Authorization: Bearer {your_jwt_token}
 ###
 
 ### Update User
-PUT http://localhost:8080/api/users/{id}
+PUT http://localhost:8080/api/users/1
 Authorization: Bearer {your_jwt_token}
 Content-Type: application/json
 
 {
-    "id": {id},
+    "id": 1,
     "username": "new_username",
     "firstName": "New",
     "lastName": "User",
@@ -29,21 +29,37 @@ Authorization: Bearer {your_jwt_token}
 
 ### Get All Users
 GET http://localhost:8080/api/users
-Authorization: Bearer {your_jwt_token}
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzA0NjM4MDE5LCJleHAiOjE3MDU1MDIwMTl9.Wz8l_IfvoyilfpB_ZDXQhZF3OIZ12o-eZInSNBryXJROYXHth7DlcxKYWCdwtaDoypZhBAZC0-ooJs7L3h8Wrg
 ###
 
-### Create User
-POST http://localhost:8080/api/users
+### Register a new User
+POST http://localhost:8080/api/auth/signup
 Authorization: Bearer {your_jwt_token}
 Content-Type: application/json
 
 {
-    "username": "new_user",
-    "firstName": "New",
-    "lastName": "User",
-    "password": "password",
-    "email": "email@example.com",
-    "birthDate": "YYYY-MM-DDTHH:MM:SS",
-    "registrationDate": "YYYY-MM-DDTHH:MM:SS",
-    "lastLoginDate": "YYYY-MM-DDTHH:MM:SS"
+  "username": "Karlmabs",
+  "firstName": "Karl",
+  "lastName": "Mabou",
+  "password": "password",
+  "email": "karlmabs@yahoo.fr",
+  "phoneNumber": "488909193",
+  "birthDate": "1999-09-28T14:28:43.593Z",
+  "registrationDate": "2024-01-07T14:28:43.593Z",
+  "lastLoginDate": "2024-01-07T14:28:43.593Z",
+  "role": [
+    "ROLE_USER"
+  ]
 }
+###
+
+### Login
+POST http://localhost:8080/api/auth/login
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+"username": "Karlmabs",
+"password": "password"
+}
+###

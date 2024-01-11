@@ -30,6 +30,15 @@ public class ProfileController {
     return ResponseEntity.ok(profileService.findAll());
   }
 
+  @Operation(summary = "Get all the profiles associated with a user")
+  @ApiResponse(responseCode = "200", description = "Found the profiles",
+          content = { @Content(mediaType = "application/json",
+                  schema = @Schema(implementation = ProfileDto.class)) })
+  @GetMapping("/user/{userId}")
+  public ResponseEntity<ProfileDto> getUserProfile(@Parameter(description = "ID of the profiles to be obtained") @PathVariable("userId") Long userId){
+    return ResponseEntity.ok(profileService.getUserProfile(userId));
+  }
+
   @Operation(summary = "Create a new profiles")
   @ApiResponse(responseCode = "200", description = "ProfileDto created successfully",
           content = { @Content(mediaType = "application/json",

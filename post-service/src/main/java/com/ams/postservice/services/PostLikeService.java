@@ -15,13 +15,14 @@ import java.util.stream.Collectors;
 public class PostLikeService {
   private final PostLikeRepository postLikeRepository;
   private final PostLikeMapper postLikeMapper;
-
   private final PostRepository postRepository;
+  private final ProfileService profileService;
 
-  public PostLikeService(PostLikeRepository postLikeRepository, PostLikeMapper postLikeMapper, PostRepository postRepository) {
+  public PostLikeService(PostLikeRepository postLikeRepository, PostLikeMapper postLikeMapper, PostRepository postRepository, ProfileService profileService) {
     this.postLikeRepository = postLikeRepository;
     this.postLikeMapper = postLikeMapper;
     this.postRepository = postRepository;
+    this.profileService = profileService;
   }
 
   public List<PostLikeDto> findAll(){
@@ -35,6 +36,7 @@ public class PostLikeService {
   public PostLikeDto save(PostLikeDto postLikeDto) {
     PostLike postLike = postLikeMapper.toEntity(postLikeDto);
     postLike.setPost(postRepository.findById(postLikeDto.getPostId()).orElseThrow(() -> new ResourceNotFoundException("Post", "id", postLikeDto.getPostId())));
+    profileService.getProfile(postLikeDto.getProfileId());
     return postLikeMapper.toDto(postLikeRepository.save(postLike));
   }
 
@@ -42,6 +44,7 @@ public class PostLikeService {
     PostLike postLike = postLikeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("PostLike", "id", id));
     postLike = postLikeMapper.partialUpdate(postLikeDto, postLike);
     postLike.setPost(postRepository.findById(postLikeDto.getPostId()).orElseThrow(() -> new ResourceNotFoundException("Post", "id", postLikeDto.getPostId())));
+    profileService.getProfile(postLikeDto.getProfileId());
     return postLikeMapper.toDto(postLikeRepository.save(postLike));
   }
 

@@ -32,21 +32,12 @@ public class UserController {
     return ResponseEntity.ok(userService.findAll());
   }
 
-  @Operation(summary = "Create a new user")
-  @ApiResponse(responseCode = "200", description = "User created successfully",
-          content = { @Content(mediaType = "application/json",
-                  schema = @Schema(implementation = UserDto.class)) })
-  @PostMapping
-  public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto){
-    return ResponseEntity.ok(userService.save(userDto));
-  }
-
   @Operation(summary = "Get a user by ID")
   @ApiResponse(responseCode = "200", description = "Found the user",
           content = { @Content(mediaType = "application/json",
                   schema = @Schema(implementation = UserDto.class)) })
   @GetMapping("/{id}")
-  public ResponseEntity<UserDto> getUserById(@Parameter(description = "ID of the user to be obtained") Long id){
+  public ResponseEntity<UserDto> getUserById(@Parameter(description = "ID of the user to be obtained") @PathVariable Long id){
     return ResponseEntity.ok(userService.findById(id));
   }
 
@@ -67,5 +58,6 @@ public class UserController {
     userService.delete(id);
     return ResponseEntity.noContent().build();
   }
+
 
 }

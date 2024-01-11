@@ -35,8 +35,8 @@ Content-Type: application/json
 
 {
   "profileId": 1,
-  "title": "string",
-  "content": "string",
+  "title": "Title",
+  "content": "content",
   "creationDate": "2024-01-07T12:51:28.096Z"
 }
 ###

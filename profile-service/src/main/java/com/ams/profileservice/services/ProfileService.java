@@ -1,6 +1,7 @@
 package com.ams.profileservice.services;
 
 import com.ams.profileservice.dtos.ProfileDto;
+import com.ams.profileservice.dtos.UserDto;
 import com.ams.profileservice.entities.Profile;
 import com.ams.profileservice.exceptions.ResourceNotFoundException;
 import com.ams.profileservice.mapper.ProfileMapper;
@@ -17,9 +18,12 @@ public class ProfileService {
   private final ProfileRepository profileRepository;
   private final ProfileMapper profileMapper;
 
-  public ProfileService(ProfileRepository profileRepository, ProfileMapper profileMapper) {
+  private final UserService userService;
+
+  public ProfileService(ProfileRepository profileRepository, ProfileMapper profileMapper, UserService userService) {
     this.profileRepository = profileRepository;
     this.profileMapper = profileMapper;
+    this.userService = userService;
   }
 
   public List<ProfileDto> findAll(){
@@ -32,12 +36,15 @@ public class ProfileService {
 
   public ProfileDto save(ProfileDto profileDto) {
     Profile profile = profileMapper.toEntity(profileDto);
+    UserDto user = userService.getUser(profileDto.getUserId());
+    System.out.println("user: " + user);
     return profileMapper.toDto(profileRepository.save(profile));
   }
 
   public ProfileDto update(long id, ProfileDto profileDto) {
     Profile profile = profileRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Profile", "id", id));
     profile = profileMapper.partialUpdate(profileDto, profile);
+    userService.getUser(profileDto.getUserId());
     return profileMapper.toDto(profileRepository.save(profile));
   }
 
@@ -79,5 +86,9 @@ public class ProfileService {
     profileRepository.save(profile2);
 
     return profileMapper.toDto(profile1);
+  }
+
+  public ProfileDto getUserProfile(Long userId) {
+    return profileMapper.toDto(profileRepository.findByUserId(userId).orElseThrow(() -> new ResourceNotFoundException("Profile", "userId", userId)));
   }
 }

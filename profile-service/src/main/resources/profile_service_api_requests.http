@@ -37,7 +37,6 @@ POST http://localhost:8081/api/profiles
 Content-Type: application/json
 
 {
-  "id": 0,
   "userId": 1,
   "currentJobTitle": "string",
   "industry": "string",

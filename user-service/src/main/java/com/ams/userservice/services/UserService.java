@@ -5,6 +5,8 @@ import com.ams.userservice.entities.User;
 import com.ams.userservice.exceptions.ResourceNotFoundException;
 import com.ams.userservice.mapper.UserMapper;
 import com.ams.userservice.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +17,12 @@ public class UserService {
   private final UserRepository userRepository;
   private final UserMapper userMapper;
 
-  public UserService(UserRepository userRepository, UserMapper userMapper) {
+  private final PasswordEncoder encoder;
+
+  public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder encoder) {
     this.userRepository = userRepository;
     this.userMapper = userMapper;
+    this.encoder = encoder;
   }
 
   public List<UserDto> findAll(){
@@ -36,6 +41,8 @@ public class UserService {
   public UserDto update(long id, UserDto userDto) {
     User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
     user = userMapper.partialUpdate(userDto, user);
+    if(userDto.getPassword() != null)
+      user.setPassword(encoder.encode(userDto.getPassword()));
     return userMapper.toDto(userRepository.save(user));
   }
 

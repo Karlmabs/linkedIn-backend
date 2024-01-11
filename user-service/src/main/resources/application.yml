@@ -7,23 +7,32 @@ spring:
       enabled: true
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/users?createDatabaseIfNotExist=true
+    url: jdbc:postgresql://user-db/users?createDatabaseIfNotExist=true
     username: postgres
     password: password
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://discovery-server:8761/eureka
 
 user:
   openapi:
     dev-url: http://user-service:8080
     prod-url: http://ecole-it.com:8080
+  app:
+    jwtCookieName: karlmabs
+    jwtSecret: ======================karlmabs=Spring===========================
+    jwtExpirationMs: 86400000
+
+app:
+  auth:
+    tokenSecret: 04ca023b39512e46d0c2cf4b48d5aac61d34302994c87ed4eff225dcf3b0a218739f3897051a057f9b846a69ea2927a587044164b7bae5e1306219d50b588cb1
+    tokenExpirationMsec: 864000000
 
 server:
   port: 8080

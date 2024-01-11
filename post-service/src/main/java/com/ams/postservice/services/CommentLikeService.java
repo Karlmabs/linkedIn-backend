@@ -18,10 +18,13 @@ public class CommentLikeService {
 
   private final CommentRepository commentRepository;
 
-  public CommentLikeService(CommentLikeRepository commentLikeRepository, CommentLikeMapper commentLikeMapper, CommentRepository commentRepository) {
+  private final ProfileService profileService;
+
+  public CommentLikeService(CommentLikeRepository commentLikeRepository, CommentLikeMapper commentLikeMapper, CommentRepository commentRepository, ProfileService profileService) {
     this.commentLikeRepository = commentLikeRepository;
     this.commentLikeMapper = commentLikeMapper;
     this.commentRepository = commentRepository;
+    this.profileService = profileService;
   }
 
   public List<CommentLikeDto> findAll(){
@@ -35,6 +38,7 @@ public class CommentLikeService {
   public CommentLikeDto save(CommentLikeDto commentLikeDto) {
     CommentLike commentLike = commentLikeMapper.toEntity(commentLikeDto);
     commentLike.setComment(commentRepository.findById(commentLikeDto.getCommentId()).orElseThrow(() -> new ResourceNotFoundException("Comment", "id", commentLikeDto.getCommentId())));
+    profileService.getProfile(commentLikeDto.getProfileId());
     return commentLikeMapper.toDto(commentLikeRepository.save(commentLike));
   }
 
@@ -42,6 +46,7 @@ public class CommentLikeService {
     CommentLike commentLike = commentLikeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("CommentLike", "id", id));
     commentLike = commentLikeMapper.partialUpdate(commentLikeDto, commentLike);
     commentLike.setComment(commentRepository.findById(commentLikeDto.getCommentId()).orElseThrow(() -> new ResourceNotFoundException("Comment", "id", commentLikeDto.getCommentId())));
+    profileService.getProfile(commentLikeDto.getProfileId());
     return commentLikeMapper.toDto(commentLikeRepository.save(commentLike));
   }
 

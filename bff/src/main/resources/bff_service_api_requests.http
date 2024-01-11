@@ -1,0 +1,10 @@
+
+### Get Posts for home page
+GET http://localhost:8084/home/1
+Authorization: Bearer {your_jwt_token}
+###
+
+### Get a single post
+GET http://localhost:8084/PostPage/1
+Authorization: Bearer {your_jwt_token}
+###

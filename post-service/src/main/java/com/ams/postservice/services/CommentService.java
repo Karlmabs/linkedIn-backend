@@ -17,13 +17,14 @@ import java.util.stream.Collectors;
 public class CommentService {
   private final CommentRepository commentRepository;
   private final CommentMapper commentMapper;
-
   private final PostRepository postRepository;
+  private final ProfileService profileService;
 
-  public CommentService(CommentRepository commentRepository, CommentMapper commentMapper, PostRepository postRepository) {
+  public CommentService(CommentRepository commentRepository, CommentMapper commentMapper, PostRepository postRepository, ProfileService profileService) {
     this.commentRepository = commentRepository;
     this.commentMapper = commentMapper;
     this.postRepository = postRepository;
+    this.profileService = profileService;
   }
 
   public List<CommentDto> findAll(){
@@ -37,6 +38,7 @@ public class CommentService {
   public CommentDto save(CommentDto commentDto) {
     Comment comment = commentMapper.toEntity(commentDto);
     comment.setPost(postRepository.findById(commentDto.getPostId()).orElseThrow(() -> new ResourceNotFoundException("Post", "id", commentDto.getPostId())));
+    profileService.getProfile(commentDto.getProfileId());
     if(commentDto.getParentCommentId() != null) {
       Comment comment1 = commentRepository.findById(commentDto.getParentCommentId()).orElseThrow(() -> new ResourceNotFoundException("Comment", "id", commentDto.getParentCommentId()));
       comment.setParentComment(comment1);
@@ -58,6 +60,7 @@ public class CommentService {
     Comment comment = commentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Comment", "id", id));
     comment = commentMapper.partialUpdate(commentDto, comment);
     comment.setPost(postRepository.findById(commentDto.getPostId()).orElseThrow(() -> new ResourceNotFoundException("Post", "id", commentDto.getPostId())));
+    profileService.getProfile(commentDto.getProfileId());
     if(commentDto.getParentCommentId() != null) {
       Comment comment1 = commentRepository.findById(commentDto.getParentCommentId()).orElseThrow(() -> new ResourceNotFoundException("Comment", "id", commentDto.getParentCommentId()));
       comment.setParentComment(comment1);

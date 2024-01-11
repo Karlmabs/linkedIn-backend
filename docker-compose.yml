@@ -3,11 +3,15 @@ services:
 
   discovery-server:
     build: ./discovery-server
+    networks:
+      - 4ams-network
     ports:
       - "8761:8761"
 
   user-db:
     image: postgres
+    networks:
+      - 4ams-network
     ports:
       - "5432:5432"
     environment:
@@ -19,18 +23,22 @@ services:
 
   user-service:
     build: ./user-service
+    networks:
+      - 4ams-network
     ports:
       - "8080:8080"
     depends_on:
       - user-db
       - discovery-server
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://user-db:5432/users
+      SPRING_DATASOURCE_URL: jdbc:postgresql://user-db/users
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
 
   post-db:
     image: postgres
+    networks:
+      - 4ams-network
     ports:
       - "5433:5432"
     environment:
@@ -42,18 +50,22 @@ services:
 
   post-service:
     build: ./post-service
+    networks:
+      - 4ams-network
     ports:
       - "8082:8082"
     depends_on:
       - post-db
       - discovery-server
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://post-db:5433/posts
+      SPRING_DATASOURCE_URL: jdbc:postgresql://post-db/posts
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
 
   profile-db:
     image: postgres
+    networks:
+      - 4ams-network
     ports:
       - "5434:5432"
     environment:
@@ -67,15 +79,30 @@ services:
     build: ./profile-service
     ports:
       - "8081:8081"
+    networks:
+      - 4ams-network
     depends_on:
       - profile-db
       - discovery-server
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://profile-db:5434/profiles
+      SPRING_DATASOURCE_URL: jdbc:postgresql://profile-db/profiles
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
 
+  bff-service:
+    build: ./bff
+    ports:
+      - "8084:8084"
+    networks:
+      - 4ams-network
+    depends_on:
+      - user-service
+      - post-service
+      - profile-service
+      - discovery-server
 
+networks:
+  4ams-network:
 
 volumes:
   user-data:
