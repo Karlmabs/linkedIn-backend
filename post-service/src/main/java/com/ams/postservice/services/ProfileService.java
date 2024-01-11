@@ -14,6 +14,6 @@ public class ProfileService {
   }
 
   public ProfileDto getProfile(Long id) {
-    return restTemplate.getForObject("http://localhost:8081/api/profiles/" + id, ProfileDto.class);
+    return restTemplate.getForObject("http://profile-service:8081/api/profiles/" + id, ProfileDto.class);
   }
 }

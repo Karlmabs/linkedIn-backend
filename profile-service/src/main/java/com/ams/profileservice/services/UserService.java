@@ -14,6 +14,6 @@ public class UserService {
   }
 
   public UserDto getUser(Long id) {
-    return restTemplate.getForObject("http://localhost:8080/api/users/" + id, UserDto.class);
+    return restTemplate.getForObject("http://user-service:8080/api/users/" + id, UserDto.class);
   }
 }
