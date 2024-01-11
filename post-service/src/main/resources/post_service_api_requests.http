@@ -1,21 +1,25 @@
 
 ### Get Post by ID
-GET http://localhost:8082/api/posts/{id}
+GET http://localhost:8082/api/posts/1
 Authorization: Bearer {your_jwt_token}
 ###
 
 ### Update Post
-PUT http://localhost:8082/api/posts/{id}
+PUT http://localhost:8082/api/posts/1
 Authorization: Bearer {your_jwt_token}
 Content-Type: application/json
 
 {
-    // Post details here
+  "id": 0,
+  "profileId": 0,
+  "title": "string",
+  "content": "string",
+  "creationDate": "2024-01-07T12:51:28.096Z"
 }
 ###
 
 ### Delete Post
-DELETE http://localhost:8082/api/posts/{id}
+DELETE http://localhost:8082/api/posts/1
 Authorization: Bearer {your_jwt_token}
 ###
 
@@ -30,7 +34,47 @@ Authorization: Bearer {your_jwt_token}
 Content-Type: application/json
 
 {
-    // Post details here
+  "profileId": 1,
+  "title": "Title",
+  "content": "content",
+  "creationDate": "2024-01-07T12:51:28.096Z"
+}
+###
+
+### Get PostLike by ID
+GET http://localhost:8082/api/postLikes/1
+Authorization: Bearer {your_jwt_token}
+###
+
+### Update PostLike
+PUT http://localhost:8082/api/postLikes/1
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+  "postId": 0,
+  "profileId": 0
+}
+###
+
+### Delete PostLike
+DELETE http://localhost:8082/api/postLikes/1
+Authorization: Bearer {your_jwt_token}
+###
+
+### Get All PostLikes
+GET http://localhost:8082/api/postLikes
+Authorization: Bearer {your_jwt_token}
+###
+
+### Create PostLike
+POST http://localhost:8082/api/postLikes
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+  "postId": 1,
+  "profileId": 1
 }
 ###
 
@@ -45,7 +89,12 @@ Authorization: Bearer {your_jwt_token}
 Content-Type: application/json
 
 {
-    // Comment details here
+  "id": 0,
+  "profileId": 0,
+  "content": "string",
+  "creationDate": "2024-01-07T13:08:19.909Z",
+  "parentCommentId": 0,
+  "postId": 0
 }
 ###
 
@@ -65,5 +114,46 @@ Authorization: Bearer {your_jwt_token}
 Content-Type: application/json
 
 {
-    // Comment details here
+  "profileId": 1,
+  "content": "second comment",
+  "creationDate": "2024-01-07T13:08:19.909Z",
+  "parentCommentId": 1,
+  "postId": 1
+}
+###
+
+### Get CommentLike by ID
+GET http://localhost:8082/api/commentLikes/{id}
+Authorization: Bearer {your_jwt_token}
+###
+
+### Update CommentLike
+PUT http://localhost:8082/api/commentLikes/{id}
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+  "commentId": 0,
+  "profileId": 0
+}
+###
+
+### Delete CommentLike
+DELETE http://localhost:8082/api/commentLikes/{id}
+Authorization: Bearer {your_jwt_token}
+###
+
+### Get All CommentLikes
+GET http://localhost:8082/api/commentLikes
+Authorization: Bearer {your_jwt_token}
+###
+
+### Create CommentLike
+POST http://localhost:8082/api/commentLikes
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+
+{
+  "commentId": 1,
+  "profileId": 1
 }

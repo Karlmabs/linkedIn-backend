@@ -1,10 +1,13 @@
 package com.ams.userservice.dto;
 
+import com.ams.userservice.entities.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -28,4 +31,6 @@ public class UserDto implements Serializable {
   private Date registrationDate;
 
   private Date lastLoginDate;
+
+  private Set<Role> roles = new HashSet<>();
 }

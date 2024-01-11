@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: bff-service
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://discovery-server:8761/eureka
+
+bff:
+  openapi:
+    dev-url: http://localhost:8084
+    prod-url: http://ecole-it.com:8080
+
+server:
+  port: 8084
