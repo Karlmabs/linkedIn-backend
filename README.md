@@ -23,7 +23,7 @@ This repository hosts a suite of microservices that collectively form a social n
 ## Quick Start
 1. **Clone the Repository**
    ```
-   git clone https://github.com/your-username/your-repo-name.git
+   git clone https://github.com/Karlmabs/linkedIn-backend.git
    ```
 
 2. **Build the Project**
@@ -41,9 +41,3 @@ This repository hosts a suite of microservices that collectively form a social n
 ## Accessing Services
 - **Swagger UI**: Available at `http://localhost:<port>/swagger-ui/index.html` for each service.
 - **Eureka Dashboard**: `http://localhost:8761`
-
-## Contributing
-Feel free to fork the repository and submit pull requests.
-
-## License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
